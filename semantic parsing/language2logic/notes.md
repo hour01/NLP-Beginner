@@ -89,5 +89,6 @@ i_t=\left\{
  y_{t-1} , \quad  otherwise
 \end{matrix}
 \right.
-$$
+$$  
+
 关键在于 $i_{t-1}$ 的选择，若 $y_{t-1}$ 出现在sketch中，则decoder下一状态的输入采用sketch的encoder的输出，否则采用 $y_{t-1}$ ，就是对自回归生成的改进。
