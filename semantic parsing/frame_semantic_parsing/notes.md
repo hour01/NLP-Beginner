@@ -73,12 +73,16 @@ $score(s) = W_2·ReLU(W_1[v_{span};v_y])$
 <img src=./note_fig/ai_arch.png width=40% />
 </div>
 
-##### [Softmax-margin ](https://aclanthology.org/N10-1112/)          
+##### [Softmax-margin ](https://aclanthology.org/N10-1112/)   
+       
 上述过程对长度为l的句子进行了逐个枚举得到了 $(l+1)*l/2$ 种span，加上与语义成分类别的组合最终会得到 $O(l^2*class_{number})$ 种得分结果，但其中大部分都不属于任何语义成分，故采用softmax-margin求loss，该方法会使得模型预测更不容易出现`False negtive`和`False positive`。     
 
-$loss=-log\frac{exp(score(s^*))}{Z}$      
-$Z = \sum_sexp{score(s)+cost(s,s^*)}$   
-$cost(s,s^*)=\alpha FN(s,s^*)+FP(s,s^*)$   
+$$loss=-log\frac{exp(score(s^*))}{Z}$$      
+
+$$Z = \sum_sexp{score(s)+cost(s,s^*)}$$   
+
+$$cost(s,s^*)=\alpha FN(s,s^*)+FP(s,s^*)$$   
+
 其中FN代表false negative数量，FP代表false positive数量。从loss的形式来看，分子对所有出现在label的 $s$ 的score及进行了求和，最大化该分数；分母在softmax的原式的基础上增加了一项cost，增大了输出概率分布与FN和FP的margin。    
 
 
