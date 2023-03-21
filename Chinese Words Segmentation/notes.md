@@ -53,7 +53,7 @@ B  M  E  S  B  E
 <img src=./note_figures/wordhood_memory.png width=70% />
 </div>
 
-核心思想就是在传统的encoder-decoder中夹上一层`Memory Networks`，提取wordhodd特征，对于Wordhood特征提取步骤如下。
+核心思想就是在传统的encoder-decoder中夹上一层`Memory Networks`，提取wordhodd特征，对于Wordhood特征提取步骤如下。  
 
 #### Lexicon Construction  
  
@@ -63,8 +63,8 @@ B  M  E  S  B  E
 
 - **N-gram Addressing**：   
   对于句子中每一个汉字 $x_i$ ，从 $\mathcal{N}$ 中得到包含 $x_i$ 的所有n-gram短语。   
-  例如对图中“民”可以得到$ K=[“民”，“居民”，“民生”，“居民生活”] $   
-  将这些n-gram输入embedding后再与encoder传来的$h_i$做softmax得到一个概率分布，即**衡量了一个字和这些短语的相关程度**：    
+  例如对图中“民”可以得到$ K=[“民”，“居民”，“民生”，“居民生活”] $    
+  将这些n-gram输入embedding后再与encoder传来的 $h_i$ 做softmax得到一个概率分布，即**衡量了一个字和这些短语的相关程度**：    
   $p_{i,j}=\frac{exp(h_i·e_{i,j}^k)}{\sum{exp(h_i·e_{i,j}^k)}} $   
   此处的 $e_{i,j}^k$ 代表上述 $K$ 中n-gram的嵌入向量   
 - **Value Reading**：      
@@ -72,7 +72,7 @@ B  M  E  S  B  E
   $o_i=\sum p_{i,j}e_{i,j}^v$
   $a_i=W·(h_i+o_i)$
 
-类似于Attention，对于某个字 $x_i$ ，将encoder的输出 $h_i$ 作为`query`，包含该字的n-gram短语集的embedding作为`key`，该字对应该短语集中每个短语的V作为`value`。
+类似于Attention，对于某个字 $x_i$ ，将encoder的输出 $h_i$ 作为`query`，包含该字的n-gram短语集的embedding作为`key`，该字对应该短语集中每个短语的V作为`value`。   
 #### 分析     
 
 <div align="center">

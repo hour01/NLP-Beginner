@@ -1,6 +1,6 @@
-# NER      
-## 数据集    
-[conll03](https://www.clips.uantwerpen.be/conll2003/ner/)
+# NER       
+## 数据集     
+[conll03](https://www.clips.uantwerpen.be/conll2003/ner/)    
 |train|validation|test|
 |----|----|----|
 |14041|3250|3453|    
@@ -86,17 +86,17 @@ $correct_{num}$: 预测准确的数量
 猜测BiLSTM解决NER任务时，模型缺陷更多在于对词语所处上下文的语义理解，并非是CRF所希望的赋予模型输出tag序列时的容错率    
 同时对于在conll03上的NER任务，其类别数较少，且连续出现entity的占比较少，故CRF也许无法得到完全训练     
 
->Glove 300d
+>Glove 300d    
 val_F1≈81, test_F1=72.31
 
->Glove 100d
+>Glove 100d   
 val_F1≈84, test_F1=76.65 
 
 
-## char_emb-BiLSTM-CRF 
+## char_emb-BiLSTM-CRF    
 输入LSTM的词向量中，除了包括预训练词向量，还包括了字符级的词向量，将二者拼接起来输入LSTM，通过对单词进行字符级embedding，可以一定程度上增强模型泛化能力，即在测试时遇到\<UNK> 时也能有效提取特征。 
 - **Char-CNN**：建立字符级词表，先对字符进行embedding，随后在此基础上使用kernel_size为`(3,embedding)`的kernel进行卷积，最后对每个output_channel做max_pooling连接。
-- **SGD**：使用`torch.optim.SGD`进行优化，其性能表现优于以往默认使用的`Adam`；同时使用weight decay:$\alpha_t=\alpha_0/(1+0.05t)$，及梯度裁剪(gradient clipping)，max_norm = 5.0。
+- **SGD**：使用`torch.optim.SGD`进行优化，其性能表现优于以往默认使用的`Adam`；同时使用weight decay: $\alpha_t=\alpha_0/(1+0.05t)$ ，及梯度裁剪(gradient clipping)，max_norm = 5.0。
 
 >使用Glove 100d 初始化，char_emb=25，hidden=125   
 val_F1≈88，test_F1=83.04
@@ -109,30 +109,30 @@ val_F1≈92, test_F1=87.21
 
 
 
-## Bert-CRF      
-使用hugging face 提供的`bert-base-uncased`初始化bert     
-遇到的问题：因为bert采用字符级encode，会将输入token进行拆分，故经过tokenizer后token数量会增加，在conll03中包括：    
-- 将`'mid-twenties'`拆为`'mid', '-', 'twenties'` 
-- 将`javasoft`拆为`'java', '##so', '##ft'` 
+## Bert-CRF       
+使用hugging face 提供的`bert-base-uncased`初始化bert      
+遇到的问题：因为bert采用字符级encode，会将输入token进行拆分，故经过tokenizer后token数量会增加，在conll03中包括：      
+- 将`'mid-twenties'`拆为`'mid', '-', 'twenties'`   
+- 将`javasoft`拆为`'java', '##so', '##ft'`    
 即会增加输入句子token数量，造成与实际ner_tag数量不对等，一般有以下几种解决方法：    
-①按照token预测结果进行打分；   
-②只要词语中有一个token被预测为entity的一部分，其他所有成分都当作entity的一部分；   
-③训练和decode时都以每个单词第一个token为准    
+①按照token预测结果进行打分；     
+②只要词语中有一个token被预测为entity的一部分，其他所有成分都当作entity的一部分；    
+③训练和decode时都以每个单词第一个token为准       
 
 解决方法如下：    
 - 根据bert-encoder输出结果，将每个子词都给予对应父词的标签用于训练   
 - 同时记录每个样本的offest_mapping，即被拆分词的位置 
 - 计算F1时将序列整合到最初的长度，整合过程中对每个被分开的词，选取其子词中频数最高的预测标签作为其预测标签(投票法) 
 
->使用bert-base-uncased（不进行微调）   
+>使用bert-base-uncased（不进行微调）    
 lr=0.01,batch=16    
 val_F1≈84，test_F1=82   
 
 
-## Bert-BiLSTM-CRF 
+## Bert-BiLSTM-CRF    
 即在Bert后加上BiLSMT-CRF, 把Bert当作embedding层    
 
->使用bert-base-uncased （不进行微调）   
+>使用bert-base-uncased （不进行微调）    
 lr=0.01,batch=16,hidden=150   
 val_F1≈90，test_F1=86.69    
     
