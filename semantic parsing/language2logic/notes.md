@@ -6,8 +6,7 @@
 
 >下面是一个自然语言转成lambda表达式的例子：       
 `约翰出生在哪个城市？`     
-  
-lambda表达式：$\lambda x. 城市(x)\land 出生地(约翰, x) $  
+lambda表达式：$\lambda x. City(x)\land BirthPlace(John, x)$  
 
 ## 数据集介绍
 ATIS数据集：包含了对航班预订系统的5410个查询，每个句子与其对应的lambda表达式组成一对。     
