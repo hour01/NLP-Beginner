@@ -35,7 +35,7 @@ $P(w_1,w_2,w_3,...,w_N)=\prod_{k=1}^N p(w_k|w_{k+1},w_{k+2},...,w_N) $
       
 $$\sum_{k=1}^N(logP(w_k|w_1,...,w_{k-1};\Theta_x,\overrightarrow{\Theta}_{LSTM},\Theta_s) + logP(w_k|w_{k+1},...,w_N;\Theta_x,\overleftarrow{\Theta}_{LSTM},\Theta_s))  $$        
 
-其中，$\overrightarrow{\Theta}_{LSTM}$ 表示前向LSTM的网络参数，$\overleftarrow{\Theta}_{LSTM}$ 表示后向LSTM的网络参数，$\Theta_x$ 是token表示层的参数，$\Theta_s$ 为bi-LSTM后的线性变化的参数，后面两者是各层bi-LSTM共享的
+其中，$$\overrightarrow{\Theta}_{LSTM}$$ 表示前向LSTM的网络参数，$$\overleftarrow{\Theta}_{LSTM}$$ 表示后向LSTM的网络参数，$$\Theta_x$$ 是token表示层的参数，$$\Theta_s$$ 为bi-LSTM后的线性变化的参数，后面两者是各层bi-LSTM共享的
 
 ## ELMo表示上下文词向量   
 
@@ -43,8 +43,7 @@ $$\sum_{k=1}^N(logP(w_k|w_1,...,w_{k-1};\Theta_x,\overrightarrow{\Theta}_{LSTM},
 
 $$R_k=\{x_k,\overrightarrow{h}_{k,j},\overleftarrow{h}_{k,j}|j=1,...,L\}$$   
 
-其中，k表示第k个token(第K个时间)，x表示word_emb，h表示没层LSTM的输出     
-也可以将每层LSTM的的输出表示为   
+其中，k表示第k个token(第K个时间)，x表示word_emb，h表示没层LSTM的输出，也可以将每层LSTM的的输出表示为   
 
 $$h_{k,j}=[\overrightarrow{h}_{k,j}:\overleftarrow{h}_{k,j}]$$   
 
