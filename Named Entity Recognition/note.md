@@ -30,8 +30,7 @@ Ministry NNP I-NP I-ORG
 #### Metric:     
 $precision=correct_{num}/predict_{num}$   
 $recall=correct_{num}/gold_{num}$   
-
-$f1=(2*precision*recall)/(precision+recall)$    
+$f1=(2precision×recall)/(precision+recall)$    
 
 $gold_{num}$: 数据集标签中出现的entity    
 $predict_{num}$: 模型一共产生的预测总数   
