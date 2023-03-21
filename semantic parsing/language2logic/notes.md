@@ -6,7 +6,7 @@
 
 >下面是一个自然语言转成lambda表达式的例子：       
 `约翰出生在哪个城市？`     
-lambda表达式：$\lambda x. City(x)\land BirthPlace(John, x)$  
+lambda表达式：$\lambda x City(x)\land BirthPlace(John, x)$  
 
 ## 数据集介绍
 ATIS数据集：包含了对航班预订系统的5410个查询，每个句子与其对应的lambda表达式组成一对。     
@@ -80,13 +80,14 @@ lambda表达式：( lambda \$0 e ( and ( flight \$0 ) ( from \$0 ci0 ) ( to \$0 
 
 最终的decoder既依赖于第一层文本encoder的输出，又依赖于sketch的encoder输出，即  
 
-$h_t=LSTM(h_{t-1},i_t) $
+$$h_t=LSTM(h_{t-1},i_t) $$
 
-$ i_t=\left\{
+$$
+i_t=\left\{
 \begin{matrix}
  v_k , y_{t-1} \quad is\quad determined\quad  by\quad  a_k \\
  y_{t-1} , \quad  otherwise
 \end{matrix}
 \right.
-$
+$$
 关键在于 $i_{t-1}$ 的选择，若 $y_{t-1}$ 出现在sketch中，则decoder下一状态的输入采用sketch的encoder的输出，否则采用 $y_{t-1}$ ，就是对自回归生成的改进。
