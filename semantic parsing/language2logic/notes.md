@@ -82,13 +82,8 @@ lambda表达式：( lambda \$0 e ( and ( flight \$0 ) ( from \$0 ci0 ) ( to \$0 
 
 $$h_t=LSTM(h_{t-1},i_t) $$
 
-$$
-i_t=\left\{
-\begin{matrix}
- v_k , y_{t-1} \quad is\quad determined\quad  by\quad  a_k \\
- y_{t-1} , \quad  otherwise
-\end{matrix}
-\right.
-$$  
+<div align="center">
+<img src=./note_figures/formula.png width=50% />
+</div>
 
 关键在于 $i_{t-1}$ 的选择，若 $y_{t-1}$ 出现在sketch中，则decoder下一状态的输入采用sketch的encoder的输出，否则采用 $y_{t-1}$ ，就是对自回归生成的改进。
