@@ -63,12 +63,12 @@ B  M  E  S  B  E
 
 - **N-gram Addressing**：   
   对于句子中每一个汉字 $x_i$ ，从 $\mathcal{N}$ 中得到包含 $x_i$ 的所有n-gram短语。   
-  例如对图中“民”可以得到$ K=[“民”，“居民”，“民生”，“居民生活”] $    
+  例如对图中“民”可以得到  $K=[“民”，“居民”，“民生”，“居民生活”]$    
   将这些n-gram输入embedding后再与encoder传来的 $h_i$ 做softmax得到一个概率分布，即**衡量了一个字和这些短语的相关程度**：    
   $p_{i,j}=\frac{exp(h_i·e_{i,j}^k)}{\sum{exp(h_i·e_{i,j}^k)}} $   
   此处的 $e_{i,j}^k$ 代表上述 $K$ 中n-gram的嵌入向量   
 - **Value Reading**：      
-  每个字在不同的n-gram中的位置不同，所以需要映射的值也不同，这里使用B I E S标记法：(B:begin ，I:inside，E:end，S:single)，对于上面的例子，得到的value集合为：$K=[V_S，V_E，V_B，V_I]$，将每个value进行embedding后得到 $e_{i,j}^v$ ，使用`N-gram Addressing`得到的概率进行加权求和输出融合了wordhood信息后每个字的特征：
+  每个字在不同的n-gram中的位置不同，所以需要映射的值也不同，这里使用B I E S标记法：(B:begin ，I:inside，E:end，S:single)，对于上面的例子，得到的value集合为：$ K=[V_S，V_E，V_B，V_I]$，将每个value进行embedding后得到 $e_{i,j}^v$ ，使用`N-gram Addressing`得到的概率进行加权求和输出融合了wordhood信息后每个字的特征：
   $o_i=\sum p_{i,j}e_{i,j}^v$
   $a_i=W·(h_i+o_i)$
 

@@ -1,44 +1,44 @@
-# ELMo
-
+# ELMo    
+  
 >word2vec、Glove得到的词向量表示有一个很大的局限性，一个单词被表示为一个固定的向量，这个向量没有在不同语境中的灵活性，即无法解决多义词的问题，一个经典的例子就是apple根据语境的不同，可以理解为一种水果或者公司
 
-## ELMo的网络结构
+## ELMo的网络结构   
 <div align="center">
 <img src=./note_fig/ELMo.png width=70% />
 </div>
 
-上图是在计算得到token上下文表示词向量的计算图，其中每个虚线框代表一层LSTM
+上图是在计算得到token上下文表示词向量的计算图，其中每个虚线框代表一层LSTM   
 <div align="center">
 <img src=./note_fig/ELMo_train.png width=70% />
 </div>
 
-上图是使用ELMo在预训练时使用到的结构
-其中 Char Encoder Layer使用的是下文中的 cnn-big-lstm
+上图是使用ELMo在预训练时使用到的结构    
+其中 Char Encoder Layer使用的是下文中的 cnn-big-lstm    
 
-[Exploring the Limits of Language Modeling](https://arxiv.org/pdf/1602.02410.pdf)
-即在字符级上用类似Text-CNN的方法做embedding
-最后输出的词向量是维度是每层双向LSTM的连接产生的维度，把相同word embedding做个concat，与双向lstm输出的维度统一起来。
+[Exploring the Limits of Language Modeling](https://arxiv.org/pdf/1602.02410.pdf)    
+即在字符级上用类似Text-CNN的方法做embedding     
+最后输出的词向量是维度是每层双向LSTM的连接产生的维度，把相同word embedding做个concat，与双向lstm输出的维度统一起来。    
 
-## ELMo的双向语言模型
+## ELMo的双向语言模型   
 
 ELMo基于双向LSTM的语言模型，即biLM
 
-**前向的LSTM语言模型**可以表示为如下形式：  
-
+**前向的LSTM语言模型**可以表示为如下形式：      
+   
 $P(w_1,w_2,w_3,...,w_N)=\prod_{k=1}^N p(w_k|w_1,w_2,...,w_{k-1}) $ 
-
-**后向的LSTM语言模型**可以表示为如下形式：
-
+   
+**后向的LSTM语言模型**可以表示为如下形式：   
+  
 $P(w_1,w_2,w_3,...,w_N)=\prod_{k=1}^N p(w_k|w_{k+1},w_{k+2},...,w_N) $
 
-**ELMo的训练目的是最大化前向和后向的似然概率:**    
-
-$\sum_{k=1}^N(logP(w_k|w_1,...,w_{k-1};\Theta_x,\overrightarrow{\Theta}_{LSTM},\Theta_s) + logP(w_k|w_{k+1},...,w_N;\Theta_x,\overleftarrow{\Theta}_{LSTM},\Theta_s))  $
-$其中，\overrightarrow{\Theta}_{LSTM}表示前向LSTM的网络参数，\overleftarrow{\Theta}_{LSTM}表示后向LSTM的网络参数，\Theta_x是token表示层的参数，\Theta_s为bi-LSTM后的线性变化的参数，后面两者是各层bi-LSTM共享的$
+**ELMo的训练目的是最大化前向和后向的似然概率:**       
+      
+$\sum_{k=1}^N(logP(w_k|w_1,...,w_{k-1};\Theta_x,\overrightarrow{\Theta}_{LSTM},\Theta_s) + logP(w_k|w_{k+1},...,w_N;\Theta_x,\overleftarrow{\Theta}_{LSTM},\Theta_s))  $        
+$其中，\overrightarrow{\Theta}_{LSTM}表示前向LSTM的网络参数，\overleftarrow{\Theta}_{LSTM}表示后向LSTM的网络参数，\Theta_x是token表示层的参数，\Theta_s为bi-LSTM后的线性变化的参数，后面两者是各层bi-LSTM共享的$  
 
 ## ELMo表示上下文词向量   
 
-对于每个token，经过L层双向LSTM语言模型后，一共有$2*L+1$个表征：   
+对于每个token，经过L层双向LSTM语言模型后，一共有 $2*L+1$ 个表征：    
 $R_k=\{x_k,\overrightarrow{h}_{k,j},\overleftarrow{h}_{k,j}|j=1,...,L\}$   
 其中，k表示第k个token(第K个时间)，x表示word_emb，h表示没层LSTM的输出     
 也可以将每层LSTM的的输出表示为 $h_{k,j}=[\overrightarrow{h}_{k,j}:\overleftarrow{h}_{k,j}]$   
