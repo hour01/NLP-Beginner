@@ -75,7 +75,7 @@ $score(s) = W_2·ReLU(W_1[v_{span};v_y])$
 
 ##### [Softmax-margin ](https://aclanthology.org/N10-1112/)   
 
-上述过程对长度为l的句子进行了逐个枚举得到了 $(l+1)*l/2$ 种span，加上与语义成分类别的组合最终会得到 $O(l^2*class_{number})$ 种得分结果，但其中大部分都不属于任何语义成分，故采用softmax-margin求loss，该方法会使得模型预测更不容易出现`False negtive`和`False positive`。     
+上述过程对长度为l的句子进行了逐个枚举得到了 $(l+1)×l/2$ 种span，加上与语义成分类别的组合最终会得到 $O(l^2×class_{number})$ 种得分结果，但其中大部分都不属于任何语义成分，故采用softmax-margin求loss，该方法会使得模型预测更不容易出现`False negtive`和`False positive`。     
 
 $$loss=-log\frac{exp(score(s^*))}{Z}$$      
 

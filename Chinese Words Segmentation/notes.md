@@ -68,7 +68,7 @@ B  M  E  S  B  E
   $p_{i,j}=\frac{exp(h_i·e_{i,j}^k)}{\sum{exp(h_i·e_{i,j}^k)}} $   
   此处的 $e_{i,j}^k$ 代表上述 $K$ 中n-gram的嵌入向量   
 - **Value Reading**：      
-  每个字在不同的n-gram中的位置不同，所以需要映射的值也不同，这里使用B I E S标记法：(B:begin ，I:inside，E:end，S:single)，对于上面的例子，得到的value集合为：$ K=[V_S，V_E，V_B，V_I]$，将每个value进行embedding后得到 $e_{i,j}^v$ ，使用`N-gram Addressing`得到的概率进行加权求和输出融合了wordhood信息后每个字的特征：
+  每个字在不同的n-gram中的位置不同，所以需要映射的值也不同，这里使用B I E S标记法：(B:begin ，I:inside，E:end，S:single)，对于上面的例子，得到的value集合为：$ K=[V_S，V_E，V_B，V_I]$ ，将每个value进行embedding后得到 $e_{i,j}^v$ ，使用`N-gram Addressing`得到的概率进行加权求和输出融合了wordhood信息后每个字的特征：
   $o_i=\sum p_{i,j}e_{i,j}^v$
   $a_i=W·(h_i+o_i)$
 
