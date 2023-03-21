@@ -91,9 +91,9 @@ $$
 
 ## Feed forward      
 两层全连接网络   
-$$
-   \mathrm{FFN}(X) = \mathrm({ReLU}(XW_1+b_1))W_2+b_2
-$$
+
+$$\mathrm{FFN}(X) = \mathrm({ReLU}(XW_1+b_1))W_2+b_2$$
+     
 其中，X的特征维度默认为512,中间隐藏层的特征维度默认为2048，输出的特征维度为512     
 从而可以增加一些非线性变化   
 
@@ -107,7 +107,8 @@ $$
 
 #### Adam optimizer    
 with $\beta_1=0.9$ , $\beta_2=0.98$ and $\epsilon=10^{-9}$ .   
-同时使用下述公式控制lr变化     
+同时使用下述公式控制lr变化    
+
 $$
 lrate = d_{\text{model}}^{-0.5} \cdot
   \min({step\_num}^{-0.5},

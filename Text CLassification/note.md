@@ -91,7 +91,7 @@ Bert在预训练方法上有一些设计的问题：
 L是损失函数，后者有两种形式：     
 - $[A]:R_s(\theta)=\frac{1}{n}\sum_{i=1}^n max_{\|x_i -\bar{x_i}\|_p \leq \epsilon} l_s(f(x_i;\theta),f(\widetilde{x_i};\theta))$
 - $[B]:R_s(\theta)=\frac{1}{n}\sum_{i=1}^n max_{\|x_i -\bar{x_i}\|_p \leq \epsilon} l_s(y_i,f(\widetilde{x_i};\theta))$      
-可以使得$f(x_i;\theta)$更平滑    
+可以使得 $f(x_i;\theta)$ 更平滑    
 
 **Bregman proximal poinT optimization**     
 在优化上式的时候，每一步迭代都加入一个正则化项，用来保存一定量之前学到的东西，不至于一下子调过头了。    

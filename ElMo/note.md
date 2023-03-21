@@ -33,15 +33,17 @@ $P(w_1,w_2,w_3,...,w_N)=\prod_{k=1}^N p(w_k|w_{k+1},w_{k+2},...,w_N) $
 
 **ELMo的训练目的是最大化前向和后向的似然概率:**       
       
-$\sum_{k=1}^N(logP(w_k|w_1,...,w_{k-1};\Theta_x,\overrightarrow{\Theta}_{LSTM},\Theta_s) + logP(w_k|w_{k+1},...,w_N;\Theta_x,\overleftarrow{\Theta}_{LSTM},\Theta_s))  $        
+$$\sum_{k=1}^N(logP(w_k|w_1,...,w_{k-1};\Theta_x,\overrightarrow{\Theta}_{LSTM},\Theta_s) + logP(w_k|w_{k+1},...,w_N;\Theta_x,\overleftarrow{\Theta}_{LSTM},\Theta_s))  $$        
+
 $其中，\overrightarrow{\Theta}_{LSTM}表示前向LSTM的网络参数，\overleftarrow{\Theta}_{LSTM}表示后向LSTM的网络参数，\Theta_x是token表示层的参数，\Theta_s为bi-LSTM后的线性变化的参数，后面两者是各层bi-LSTM共享的$  
 
 ## ELMo表示上下文词向量   
 
-对于每个token，经过L层双向LSTM语言模型后，一共有 $2*L+1$ 个表征：    
-$R_k=\{x_k,\overrightarrow{h}_{k,j},\overleftarrow{h}_{k,j}|j=1,...,L\}$   
+对于每个token，经过L层双向LSTM语言模型后，一共有 $2*L+1$ 个表征：      
+$$R_k=\{x_k,\overrightarrow{h}_{k,j},\overleftarrow{h}_{k,j}|j=1,...,L\}$$   
 其中，k表示第k个token(第K个时间)，x表示word_emb，h表示没层LSTM的输出     
-也可以将每层LSTM的的输出表示为 $h_{k,j}=[\overrightarrow{h}_{k,j}:\overleftarrow{h}_{k,j}]$   
+也可以将每层LSTM的的输出表示为 
+$$h_{k,j}=[\overrightarrow{h}_{k,j}:\overleftarrow{h}_{k,j}]$$   
 
 如何从这么多的表示中得到token的上下文向量？最简单的方法就是选择顶层LSTM的输出。同时也有另一种方法表示为：  
 $ELMo_k^{task}=E(R_k;\Theta^{task})=\gamma^{task}\sum_{j=0}^Ls_j^{task}h_{k,j}  $    

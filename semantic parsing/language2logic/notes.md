@@ -6,6 +6,7 @@
 
 >下面是一个自然语言转成lambda表达式的例子：       
 `约翰出生在哪个城市？`     
+  
 lambda表达式：$\lambda x. 城市(x)\land 出生地(约翰, x) $  
 
 ## 数据集介绍
@@ -78,8 +79,10 @@ lambda表达式：( lambda \$0 e ( and ( flight \$0 ) ( from \$0 ci0 ) ( to \$0 
 <img src=./note_figures/coarse2fine.png width=80% />
 </div>
 
-最终的decoder既依赖于第一层文本encoder的输出，又依赖于sketch的encoder输出，即    
+最终的decoder既依赖于第一层文本encoder的输出，又依赖于sketch的encoder输出，即  
+
 $h_t=LSTM(h_{t-1},i_t) $
+
 $ i_t=\left\{
 \begin{matrix}
  v_k , y_{t-1} \quad is\quad determined\quad  by\quad  a_k \\

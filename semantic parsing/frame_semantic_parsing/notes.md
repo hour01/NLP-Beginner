@@ -74,8 +74,9 @@ $score(s) = W_2·ReLU(W_1[v_{span};v_y])$
 </div>
 
 ##### [Softmax-margin ](https://aclanthology.org/N10-1112/)          
-上述过程对长度为l的句子进行了逐个枚举得到了$(l+1)*l/2$种span，加上与语义成分类别的组合最终会得到 $O(l^2*class_{number})$ 种得分结果，但其中大部分都不属于任何语义成分，故采用softmax-margin求loss，该方法会使得模型预测更不容易出现`False negtive`和`False positive`。    
-$loss=-log\frac{exp(score(s^*))}{Z}$  
+上述过程对长度为l的句子进行了逐个枚举得到了 $(l+1)*l/2$ 种span，加上与语义成分类别的组合最终会得到 $O(l^2*class_{number})$ 种得分结果，但其中大部分都不属于任何语义成分，故采用softmax-margin求loss，该方法会使得模型预测更不容易出现`False negtive`和`False positive`。     
+
+$loss=-log\frac{exp(score(s^*))}{Z}$      
 $Z = \sum_sexp{score(s)+cost(s,s^*)}$   
 $cost(s,s^*)=\alpha FN(s,s^*)+FP(s,s^*)$   
 其中FN代表false negative数量，FP代表false positive数量。从loss的形式来看，分子对所有出现在label的 $s$ 的score及进行了求和，最大化该分数；分母在softmax的原式的基础上增加了一项cost，增大了输出概率分布与FN和FP的margin。    
@@ -100,9 +101,11 @@ $cost(s,s^*)=\alpha FN(s,s^*)+FP(s,s^*)$
 <img src=./note_fig/graphcnn_.png width=60% />
 </div>
 
-一般卷积网络中的卷积通过卷积核来进行，而图卷积网络中的卷积依赖于边；CNN中可以认为临近的点都有边相连。对于成分句法树的GCN，可以形式化为：    
+一般卷积网络中的卷积通过卷积核来进行，而图卷积网络中的卷积依赖于边；CNN中可以认为临近的点都有边相连。对于成分句法树的GCN，可以形式化为： 
+    
 $H^{(l+1)}=LN(\sigma(AH^lW^l+b^l)) $    
-其中，$A$ 是图的邻接矩阵表示，$H^l\in R^{N×D}$是第l层各个点状态的表示，$W^l\in R^{D×E}$ 是维度转换的权重矩阵，其中 $H^0=$ n个点的嵌入向量；上式代表的含义就是，该层各点状态计算仅取决于上一层的结果，即对于某个点 $i$ ，其当层的向量表示为所有与$i$相邻点上一层的状态向量求和，再经过线性变化和激活函数。下图是对应与上述成份句法树的GCN计算。    
+
+其中，$A$ 是图的邻接矩阵表示，$H^l\in R^{N×D}$ 是第l层各个点状态的表示，$W^l\in R^{D×E}$ 是维度转换的权重矩阵，其中 $H^0=$ n个点的嵌入向量；上式代表的含义就是，该层各点状态计算仅取决于上一层的结果，即对于某个点 $i$ ，其当层的向量表示为所有与 $i$ 相邻点上一层的状态向量求和，再经过线性变化和激活函数。下图是对应与上述成份句法树的GCN计算。    
 
 <div align="center">
 <img src=./note_fig/graphcnn.png width=60% />
@@ -137,7 +140,7 @@ $p_{j}=p_{1,j},...,p_{n,j}$，j是句子中能够激发语义框架的`target wo
 通过`Bert, BiHLSTM`得到输入句子单词级别的特征表示，限制最大长度的前提下枚举句子中所有span，拼接span相关特征向量作为`span representation` $g$。
 
 #### Node Building & Frame Classification of Predicate Nodes      
-对每个span进行分类，输入就是每个span对应的$g_i$，经过MLP层对齐到输出类别维度后采用softmax计算各类别的概率。
+对每个span进行分类，输入就是每个span对应的 $g_i$ ，经过MLP层对齐到输出类别维度后采用softmax计算各类别的概率。
 
 每个span在一个语义框架下可能的类别如下：
 - FPRD: a full predicate span.
