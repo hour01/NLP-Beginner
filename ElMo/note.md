@@ -39,14 +39,19 @@ $其中，\overrightarrow{\Theta}_{LSTM}表示前向LSTM的网络参数，\overl
 
 ## ELMo表示上下文词向量   
 
-对于每个token，经过L层双向LSTM语言模型后，一共有 $2*L+1$ 个表征：      
+对于每个token，经过L层双向LSTM语言模型后，一共有 $2*L+1$ 个表征：   
+
 $$R_k=\{x_k,\overrightarrow{h}_{k,j},\overleftarrow{h}_{k,j}|j=1,...,L\}$$   
+
 其中，k表示第k个token(第K个时间)，x表示word_emb，h表示没层LSTM的输出     
-也可以将每层LSTM的的输出表示为 
+也可以将每层LSTM的的输出表示为   
+
 $$h_{k,j}=[\overrightarrow{h}_{k,j}:\overleftarrow{h}_{k,j}]$$   
 
 如何从这么多的表示中得到token的上下文向量？最简单的方法就是选择顶层LSTM的输出。同时也有另一种方法表示为：  
+
 $ELMo_k^{task}=E(R_k;\Theta^{task})=\gamma^{task}\sum_{j=0}^Ls_j^{task}h_{k,j}  $    
+
 对于每层向量，我们加一个权重 $s_j$ （一个实数），将每层的向量与权重相乘，然后再乘以一个权重 $\gamma^{task}$ 。每层 LSTM 输出，或者每层 LSTM 学到的东西是不一样的，针对每个任务每层的向量重要性也不一样，所以有L层 LSTM，L+1个权重，加上前面的 $\gamma^{task}$，一共有L+2个权重。 权重 $\gamma^{task}$ 是对于训练多个任务时加入的，对于一个单独的任务，就不需要这个参数了。
 
 ## ELMo的效果  
